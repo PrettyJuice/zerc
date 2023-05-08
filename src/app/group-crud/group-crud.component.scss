@@ -4,7 +4,11 @@
 }
 
 header {
-  text-align: right;
+  text-align: left;
+}
+
+.save {
+  float: right;
 }
 
 mat-divider {
@@ -13,4 +17,5 @@ mat-divider {
 
 mat-form-field {
   width: 100%;
+  margin-top: 15px;
 }

@@ -1,6 +1,14 @@
 <mat-card *ngIf="groups.length === 0">
   <mat-card-content>Aucun groupe.</mat-card-content>
 </mat-card>
-<mat-card *ngFor="let group of groups">
-  <mat-card-content>{{ group }}</mat-card-content>
+<mat-card *ngFor="let group of groups; let i = index" (click)="edit.emit(i)">
+  <mat-card-header>
+    <mat-card-title>
+      {{ group.name }}
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    {{ group.emails.join(', ') }}
+  </mat-card-content>
 </mat-card>

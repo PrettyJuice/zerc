@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Group } from './model/group';
+import {Component, OnInit} from '@angular/core';
+import {Group} from './model/group';
+import local = chrome.storage.local;
 
 @Component({
   selector: 'app-root',
@@ -9,13 +10,37 @@ import { Group } from './model/group';
 export class AppComponent implements OnInit {
   state: 'list' | 'crud' = 'list';
   groups: Group[] = [];
+  groupIndexToEdit?: number;
 
   ngOnInit(): void {
+    const groupsInLocalStorage = localStorage.getItem('zerc');
+
+    if(groupsInLocalStorage) {
+      this.groups = JSON.parse(groupsInLocalStorage) as Group[];
+    }
    // this.getContacts();
   }
 
-  saveGroup(group: Group | undefined): void {
-    console.log('sace', group)
+  editGroup(groupIndex: number) {
+    this.groupIndexToEdit = groupIndex;
+    this.state = 'crud'
+  }
+
+  saveGroup(group: Group | null): void {
+    if (this.groupIndexToEdit !== undefined) {
+      if(group) {
+        this.groups[this.groupIndexToEdit] = group;
+      } else {
+        this.groups.splice(this.groupIndexToEdit,1);
+      }
+    } else if(group){
+      this.groups.push(group);
+    }
+
+    delete this.groupIndexToEdit;
+    this.state = 'list';
+
+    localStorage.setItem('zerc', JSON.stringify(this.groups))
   }
 
   getContacts(): void {

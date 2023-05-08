@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     GroupListComponent,
     GroupCrudComponent
   ],
-  imports : [
+  imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatToolbarModule,
@@ -29,6 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatInputModule,
     MatListModule,
     MatChipsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

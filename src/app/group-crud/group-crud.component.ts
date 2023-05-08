@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Group } from '../model/group';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {MatChipEditedEvent, MatChipInputEvent} from '@angular/material/chips';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {Group} from '../model/group';
 
 @Component({
   selector: 'app-group-crud',
@@ -10,13 +10,13 @@ import { Group } from '../model/group';
 })
 export class GroupCrudComponent implements OnInit {
   @Input() group?: Group;
-  @Output() saveGroup = new EventEmitter<Group>();
+  @Output() saveGroup = new EventEmitter<Group | null>();
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   editingGroup!: Group;
 
   ngOnInit(): void {
     if(this.group) {
-      this.editingGroup = this.group;
+      this.editingGroup = JSON.parse(JSON.stringify(this.group));
     } else {
       this.editingGroup =  {name: '', emails: []}
     }
@@ -58,6 +58,12 @@ export class GroupCrudComponent implements OnInit {
   }
 
   save(): void {
-    this.saveGroup.emit(this.editingGroup);
+    if (this.editingGroup.name.length !== 0) {
+      this.saveGroup.emit(this.editingGroup);
+    }
+  }
+
+  deleteGroup():void {
+    this.saveGroup.emit(null);
   }
 }

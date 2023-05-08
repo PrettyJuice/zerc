@@ -5,12 +5,12 @@
   <button mat-icon-button *ngIf="state === 'list'" (click)="state = 'crud'">
     <mat-icon>add</mat-icon>
   </button>
-  <button mat-icon-button *ngIf="state === 'crud'" (click)="state = 'list'">
+  <button mat-icon-button *ngIf="state === 'crud'" (click)="state = 'list'; groupIndexToEdit = undefined">
     <mat-icon>keyboard_backspace</mat-icon>
   </button>
 </mat-toolbar>
 
 <section class="container">
-  <app-group-list [groups]="groups" *ngIf="state === 'list'"></app-group-list>
-  <app-group-crud *ngIf="state === 'crud'" (saveGroup)="saveGroup($event)"></app-group-crud>
+  <app-group-list [groups]="groups" *ngIf="state === 'list'" (edit)="editGroup($event)"></app-group-list>
+  <app-group-crud *ngIf="state === 'crud'" (saveGroup)="saveGroup($event)" [group]="groups[groupIndexToEdit ?? -1]"></app-group-crud>
 </section>

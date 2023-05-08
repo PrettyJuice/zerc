@@ -1,16 +1,16 @@
 <header>
-  <button mat-icon-button color="primary" (click)="save()">
-    <mat-icon>save</mat-icon>
+  <button mat-icon-button color="warn" *ngIf="!!group" (click)="deleteGroup()">
+    <mat-icon>delete</mat-icon>
   </button>
 
-  <button mat-icon-button color="warn">
-    <mat-icon>delete</mat-icon>
+  <button mat-icon-button color="primary" (click)="save()" class="save">
+    <mat-icon>save</mat-icon>
   </button>
 </header>
 
 <mat-form-field appearance="outline">
   <mat-label>Nom du groupe</mat-label>
-  <input matInput>
+  <input matInput [(ngModel)]="editingGroup.name">
 </mat-form-field>
 
 <mat-divider></mat-divider>
@@ -28,7 +28,7 @@
       </button>
     </mat-chip-row>
 
-    <input placeholder="exemple@exemple.com"
+    <input placeholder="Entrer une adresse mail..."
            [matChipInputFor]="chipGrid"
            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
            [matChipInputAddOnBlur]="true"

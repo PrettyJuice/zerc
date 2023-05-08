@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { Group } from '../model/group';
 
 @Component({
@@ -8,4 +8,5 @@ import { Group } from '../model/group';
 })
 export class GroupListComponent {
   @Input() groups!: Group[];
+  @Output() edit = new EventEmitter<number>();
 }
