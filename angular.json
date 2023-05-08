@@ -31,11 +31,10 @@
             "assets": [
               "src/icon.png",
               "src/assets",
+              "src/style.css",
               "src/manifest.json"
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss"
             ],
             "scripts": []
           },
