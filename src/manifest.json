@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "zerc",
+  "version": "1.0",
+  "description": "TODO",
+  "permissions": [
+    "activeTab",
+    "webNavigation",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "index.html"
+  }
+}
