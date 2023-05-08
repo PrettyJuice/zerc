@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Group } from './model/group';
 
 @Component({
   selector: 'app-root',
@@ -6,17 +7,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  emails = ['pascal.bolo@free.fr', 'vindediou.didiou@free.fr', 'Benedicte.LEVIONNAIS@nantesmetropole.fr', 'cgrelaud@mairie-coueron.fr', 'monsieur@leray.com']
+  state: 'list' | 'crud' = 'list';
+  groups: Group[] = [];
 
-  ngOnInit (): void {
-   this.getContacts();
+  ngOnInit(): void {
+   // this.getContacts();
+  }
+
+  saveGroup(group: Group | undefined): void {
+    console.log('sace', group)
   }
 
   getContacts(): void {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
       chrome.scripting.executeScript({
         target: { tabId: tabs[0].id! },
-        args: [this.emails],
+        args: [[]], // TODO : Passer les emails du groupe
         func: checkEmails
       });
     });

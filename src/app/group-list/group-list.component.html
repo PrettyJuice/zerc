@@ -1,0 +1,6 @@
+<mat-card *ngIf="groups.length === 0">
+  <mat-card-content>Aucun groupe.</mat-card-content>
+</mat-card>
+<mat-card *ngFor="let group of groups">
+  <mat-card-content>{{ group }}</mat-card-content>
+</mat-card>

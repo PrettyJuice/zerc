@@ -1,2 +1,16 @@
-coucou
+<mat-toolbar color="primary">
+  <span *ngIf="state === 'list'">ZERC</span>
+  <span *ngIf="state === 'crud'">Gérer un groupe de mails</span>
+  <div class="spacer"></div>
+  <button mat-icon-button *ngIf="state === 'list'" (click)="state = 'crud'">
+    <mat-icon>add</mat-icon>
+  </button>
+  <button mat-icon-button *ngIf="state === 'crud'" (click)="state = 'list'">
+    <mat-icon>keyboard_backspace</mat-icon>
+  </button>
+</mat-toolbar>
 
+<section class="container">
+  <app-group-list [groups]="groups" *ngIf="state === 'list'"></app-group-list>
+  <app-group-crud *ngIf="state === 'crud'" (saveGroup)="saveGroup($event)"></app-group-crud>
+</section>
