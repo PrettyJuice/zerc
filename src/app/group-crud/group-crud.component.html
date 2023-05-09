@@ -10,7 +10,7 @@
 
 <mat-form-field appearance="outline">
   <mat-label>Nom du groupe</mat-label>
-  <input matInput [(ngModel)]="editingGroup.name">
+  <input matInput [(ngModel)]="editingGroup.name" />
 </mat-form-field>
 
 <mat-divider></mat-divider>
@@ -18,20 +18,19 @@
 <mat-form-field appearance="outline">
   <mat-label>Adresses mails</mat-label>
   <mat-chip-grid #chipGrid aria-label="Entrer un email.">
-    <mat-chip-row *ngFor="let email of editingGroup.emails"
-                  (removed)="remove(email)"
-                  [editable]="true"
-                  (edited)="edit(email, $event)">
-      {{email}}
+    <mat-chip-row *ngFor="let email of editingGroup.emails" (removed)="remove(email)" [editable]="true" (edited)="edit(email, $event)">
+      {{ email }}
       <button matChipRemove>
         <mat-icon>cancel</mat-icon>
       </button>
     </mat-chip-row>
 
-    <input placeholder="Entrer une adresse mail..."
-           [matChipInputFor]="chipGrid"
-           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-           [matChipInputAddOnBlur]="true"
-           (matChipInputTokenEnd)="add($event)"/>
+    <input
+      placeholder="Entrer une adresse mail..."
+      [matChipInputFor]="chipGrid"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      [matChipInputAddOnBlur]="true"
+      (matChipInputTokenEnd)="add($event)"
+    />
   </mat-chip-grid>
 </mat-form-field>

@@ -1,12 +1,11 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { Group } from './model/group';
 import { Result } from './model/result';
-
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   state: 'list' | 'crud' = 'list';
@@ -14,69 +13,82 @@ export class AppComponent implements OnInit {
   groupIndexToEdit?: number;
   result?: Result;
 
-  constructor (private ngZone:NgZone) {
-  }
+  constructor(private ngZone: NgZone, private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     chrome.storage.sync.get('data', ({ data }) => {
-      if(data) {
+      if (data) {
         this.ngZone.run(() => {
           this.groups = JSON.parse(data) as Group[];
-        })
+        });
       }
     });
   }
 
   editGroup(groupIndex: number) {
     this.groupIndexToEdit = groupIndex;
-    this.state = 'crud'
+    this.state = 'crud';
   }
 
   saveGroup(group: Group | null): void {
     if (this.groupIndexToEdit !== undefined) {
-      if(group) {
+      if (group) {
         this.groups[this.groupIndexToEdit] = group;
       } else {
-        this.groups.splice(this.groupIndexToEdit,1);
+        this.groups.splice(this.groupIndexToEdit, 1);
       }
-    } else if(group){
+    } else if (group) {
       this.groups.push(group);
     }
 
     delete this.groupIndexToEdit;
     this.state = 'list';
 
-    chrome.storage.sync.set({data:JSON.stringify(this.groups)});
+    chrome.storage.sync.set({ data: JSON.stringify(this.groups) });
   }
 
   checkEmails(group: Group): void {
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       chrome.scripting.executeScript({
         target: { tabId: tabs[0].id! },
-        args: [group.emails],
-        func: (emailsNeeded: string[]) => {
+        func: () => {
           // Affiche tout les emails
-          const seeMore = document.getElementsByClassName('zimbra-client_address-list_addressToggle').item(0);
+          const seeMore = document.getElementsByClassName('zimbra-client_address-list_addressToggle');
 
-          // TODO : Ouvrir tout
-          if(seeMore && seeMore.innerHTML !== 'Montre moins') {
-            let clickEvent = new Event('click');
-            seeMore.dispatchEvent(clickEvent);
+          if (!seeMore) {
+            return;
           }
 
-          // Vérifie les emails présents dans la liste
-          setTimeout(() => {
+          let clickEvent = new Event('click');
+          for (let i = 0; i <= seeMore.length; i++) {
+            if (seeMore.item(i)?.innerHTML !== 'Montre moins') {
+              seeMore.item(i)?.dispatchEvent(clickEvent);
+            }
+          }
+        },
+      });
+    });
+
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.scripting.executeScript(
+        {
+          target: { tabId: tabs[0].id! },
+          args: [group],
+          func: (group: Group) => {
+            // Vérifie les emails présents dans la liste
             const missingEmails: string[] = [];
 
             const emailElements: HTMLElement[] = [];
-            const elements = document.querySelectorAll<HTMLElement>('.zimbra-client_viewer_responsive-viewer_toAddressList .zimbra-client_address-list_addressName');
-            elements.forEach(element => {
+            const elements = document.querySelectorAll<HTMLElement>(
+              '.zimbra-client_viewer_responsive-viewer_toAddressList .zimbra-client_address-list_addressName',
+            );
+            elements.forEach((element) => {
               emailElements.push(element);
             });
 
-            emailsNeeded.forEach(email => {
-              const emailElement = emailElements.find(element => element.title.toLowerCase() === email.toLowerCase());
-              if(emailElement) {
+            group.emails.forEach((email) => {
+              const emailElement = emailElements.find((element) => element.title.toLowerCase() === email.toLowerCase());
+              if (emailElement) {
                 emailElement.style.color = 'white';
                 emailElement.style.fontWeight = 'bold';
                 emailElement.style.background = 'green';
@@ -84,34 +96,17 @@ export class AppComponent implements OnInit {
               } else {
                 missingEmails.push(email);
               }
-            })
+            });
 
-            const emailViewer = document.getElementsByClassName('zimbra-client_html-viewer_inner').item(0);
-
-            if(missingEmails.length > 0) {
-              const statusElement = document.createElement('div');
-              statusElement.style.color = 'white';
-              statusElement.style.background = 'red';
-              statusElement.style.fontWeight = 'bold';
-              statusElement.style.position = 'absolute';
-              statusElement.style.fontSize = '18px';
-              statusElement.style.top = '0px';
-              statusElement.style.left = '0';
-              statusElement.style.zIndex = '100';
-              statusElement.style.padding = '5px 10px';
-              statusElement.style.borderRadius = '5px';
-              statusElement.innerHTML = missingEmails.join(', ');
-              emailViewer?.appendChild(statusElement);
-            }
-
-            this.ngZone.run(() => {
-              this.result =
-                {group, missing:missingEmails}
-              console.log('WESHH')
-            })
-          })
-        }
-      });
+            return JSON.stringify({ group, missing: missingEmails });
+          },
+        },
+        (result) => {
+          this.ngZone.run(() => {
+            this.result = JSON.parse(result[0].result) as Result;
+          });
+        },
+      );
     });
   }
 }

@@ -1,12 +1,12 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {MatChipEditedEvent, MatChipInputEvent} from '@angular/material/chips';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {Group} from '../model/group';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Group } from '../model/group';
 
 @Component({
   selector: 'app-group-crud',
   templateUrl: './group-crud.component.html',
-  styleUrls: ['./group-crud.component.scss']
+  styleUrls: ['./group-crud.component.scss'],
 })
 export class GroupCrudComponent implements OnInit {
   @Input() group?: Group;
@@ -15,24 +15,27 @@ export class GroupCrudComponent implements OnInit {
   editingGroup!: Group;
 
   ngOnInit(): void {
-    if(this.group) {
+    if (this.group) {
       this.editingGroup = JSON.parse(JSON.stringify(this.group));
     } else {
-      this.editingGroup =  {name: '', emails: []}
+      this.editingGroup = { name: '', emails: [] };
     }
   }
 
   add(event: MatChipInputEvent): void {
-    const value = event.value.toLowerCase().trim();
+    const values = event.value.toLowerCase().trim().split(',');
 
-    if (value.length === 0) {
-      return;
-    }
+    for (let value of values) {
+      value = value.trim();
+      if (value.length === 0) {
+        return;
+      }
 
-    if(this.editingGroup.emails.indexOf(value) === -1) {
-      this.editingGroup.emails.push(value);
+      if (this.editingGroup.emails.indexOf(value) === -1) {
+        this.editingGroup.emails.push(value);
+      }
+      event.chipInput!.clear();
     }
-    event.chipInput!.clear();
   }
 
   remove(email: string): void {
@@ -50,11 +53,6 @@ export class GroupCrudComponent implements OnInit {
       this.remove(email);
       return;
     }
-
-    const index = this.editingGroup.emails.indexOf(email);
-    if (index >= 0) {
-      this.editingGroup.emails[index] = value;
-    }
   }
 
   save(): void {
@@ -63,7 +61,7 @@ export class GroupCrudComponent implements OnInit {
     }
   }
 
-  deleteGroup():void {
+  deleteGroup(): void {
     this.saveGroup.emit(null);
   }
 }

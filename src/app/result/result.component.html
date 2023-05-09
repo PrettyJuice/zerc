@@ -1,1 +1,22 @@
-<p>result works!</p>
+<h1>{{ result.group.name }}</h1>
+<p [class.missing]="result.missing.length > 0">
+  <span>{{ result.group.emails.length - result.missing.length }}</span>
+  /
+  <span>{{ result.group.emails.length }}</span>
+</p>
+
+<ng-container *ngIf="result.missing.length > 1">
+  <mat-divider></mat-divider>
+  <h2>A transférer à :</h2>
+  <mat-card>
+    {{ result.missing.join(', ') }}
+
+    <button mat-icon-button (click)="copy()">
+      <mat-icon>file_copy</mat-icon>
+    </button>
+  </mat-card>
+</ng-container>
+
+<button mat-icon-button class="back" (click)="close.next()">
+  <mat-icon>keyboard_backspace</mat-icon>
+</button>
