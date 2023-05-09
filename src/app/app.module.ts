@@ -13,12 +13,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FormsModule} from "@angular/forms";
+import { ResultComponent } from './result/result.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GroupListComponent,
-    GroupCrudComponent
+    GroupCrudComponent,
+    ResultComponent
   ],
   imports: [
     BrowserModule,

@@ -1,14 +1,22 @@
 <mat-card *ngIf="groups.length === 0">
   <mat-card-content>Aucun groupe.</mat-card-content>
 </mat-card>
-<mat-card *ngFor="let group of groups; let i = index" (click)="edit.emit(i)">
-  <mat-card-header>
-    <mat-card-title>
-      {{ group.name }}
-    </mat-card-title>
-  </mat-card-header>
 
-  <mat-card-content>
-    {{ group.emails.join(', ') }}
-  </mat-card-content>
+<mat-card *ngFor="let group of groups; let i = index">
+    <mat-card-header>
+      <mat-card-title>
+        {{ group.name }}
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      {{ group.emails.join(', ') }}
+    </mat-card-content>
+
+  <button mat-raised-button color="primary" (click)="check.emit(group)">Vérifier</button>
+
+  <button mat-icon-button class="edit" (click)="edit.emit(i)">
+    <mat-icon>edit</mat-icon>
+  </button>
 </mat-card>
+

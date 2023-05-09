@@ -9,4 +9,5 @@ import { Group } from '../model/group';
 export class GroupListComponent {
   @Input() groups!: Group[];
   @Output() edit = new EventEmitter<number>();
+  @Output() check = new EventEmitter<Group>();
 }

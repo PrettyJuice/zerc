@@ -1,7 +1,10 @@
+@use "style";
+
 :host {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 400px;
+  height: 500px;
+  margin: auto;
 }
 
 .spacer {
@@ -13,6 +16,8 @@
   padding: 0 10px;
 }
 
-mat-card {
-  margin: 1em 0;
+app-result {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
