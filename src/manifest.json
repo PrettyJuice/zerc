@@ -2,13 +2,16 @@
   "manifest_version": 3,
   "name": "zerc",
   "version": "1.0",
-  "description": "TODO",
+  "description": "Vérifiez très rapidement si un email est présent dans la liste des destinataires d'un email sur Zimbra (version moderne).",
   "permissions": [
     "activeTab",
     "webNavigation",
     "scripting",
     "storage"
   ],
+  "icons": {
+    "48": "icon.png"
+  },
   "background": {
     "service_worker": "background.js",
     "type": "module"
