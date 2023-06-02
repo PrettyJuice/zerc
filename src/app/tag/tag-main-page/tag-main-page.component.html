@@ -1,0 +1,28 @@
+<mat-card *ngIf="tags.length === 0">
+  <mat-card-content>Aucun tag.</mat-card-content>
+</mat-card>
+
+<mat-card *ngFor="let tag of tags" [style.background-color]="tag.color" (click)="applyTagToCurrentOpenedMessage(tag)">
+  <mat-card-content>
+    {{ tag.name }}
+  </mat-card-content>
+</mat-card>
+
+
+<!-- <mat-toolbar color="secondary">
+  <span *ngIf="state === 'list'">Tags</span>
+  <span *ngIf="state === 'crud'">Gérer un tag</span>
+  <div class="spacer"></div>
+  <button mat-icon-button *ngIf="state === 'list'" (click)="state = 'crud'">
+    <mat-icon>add</mat-icon>
+  </button>
+  <button mat-icon-button *ngIf="state === 'crud'" (click)="state = 'list'; tagIndexToEdit = undefined">
+    <mat-icon>keyboard_backspace</mat-icon>
+  </button>
+</mat-toolbar>
+
+<section class="container">
+  <app-tag-list [tags]="tags" *ngIf="state === 'list'" (edit)="editTag($event)"></app-tag-list>
+  <app-group-crud *ngIf="state === 'crud'" (saveGroup)="saveGroup($event)" [group]="groups[groupIndexToEdit ?? -1]"></app-group-crud>
+</section>
+-->

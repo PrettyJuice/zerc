@@ -5,20 +5,18 @@
   width: 400px;
   height: 500px;
   margin: auto;
+  overflow-y: scroll;
+
+  ::ng-deep {
+    .spacer {
+      flex-grow: 1;
+    }
+  }
 }
 
-.spacer {
-  flex-grow: 1;
-}
+button {
+  &.selected {
+    background: rgba(white, 0.3);
 
-.container {
-  width: 100%;
-  padding: 0 10px;
-}
-
-app-result {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
+  }
 }

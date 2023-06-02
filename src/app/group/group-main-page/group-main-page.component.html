@@ -1,0 +1,17 @@
+<mat-toolbar color="secondary">
+  <span *ngIf="state === 'list'">Groupes de mails</span>
+  <span *ngIf="state === 'crud'">Gérer un groupe de mails</span>
+  <div class="spacer"></div>
+  <button mat-icon-button *ngIf="state === 'list'" (click)="state = 'crud'">
+    <mat-icon>add</mat-icon>
+  </button>
+  <button mat-icon-button *ngIf="state === 'crud'" (click)="state = 'list'; groupIndexToEdit = undefined">
+    <mat-icon>keyboard_backspace</mat-icon>
+  </button>
+</mat-toolbar>
+
+<section class="container">
+  <app-group-list [groups]="groups" *ngIf="state === 'list'" (edit)="editGroup($event)" (check)="checkEmails($event)"></app-group-list>
+  <app-group-crud *ngIf="state === 'crud'" (saveGroup)="saveGroup($event)" [group]="groups[groupIndexToEdit ?? -1]"></app-group-crud>
+  <app-result *ngIf="result" [result]="result" (close)="result = undefined"></app-result>
+</section>

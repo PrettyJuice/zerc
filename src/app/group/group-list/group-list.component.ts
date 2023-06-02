@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Group } from '../model/group';
+import { Group } from '../../model/group';
 
 @Component({
   selector: 'app-group-list',

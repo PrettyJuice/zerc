@@ -1,0 +1,20 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  padding: 0 10px;
+}
+
+mat-card {
+  margin: 8px auto;
+  width: 350px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}

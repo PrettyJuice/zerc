@@ -1,0 +1,13 @@
+<mat-card *ngIf="tags.length === 0">
+  <mat-card-content>Aucun tag.</mat-card-content>
+</mat-card>
+
+<mat-card *ngFor="let tag of tags; let i = index">
+  <mat-card-content>
+    {{ tag.name }}
+  </mat-card-content>
+
+  <button mat-icon-button class="edit" (click)="edit.emit(i)">
+    <mat-icon>edit</mat-icon>
+  </button>
+</mat-card>
